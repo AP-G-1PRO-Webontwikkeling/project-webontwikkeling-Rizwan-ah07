@@ -1,0 +1,158 @@
+[
+    {
+        "id": 1,
+        "name": "Blue-Eyes White Dragon",
+        "description": "This legendary dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.",
+        "attack_points": 3000,
+        "is_synchro": false,
+        "release_date": "1999-03-06",
+        "image_url": "https://yugioh.com/cards/blue-eyes-white-dragon",
+        "type": "Dragon",
+        "abilities": ["Destroy Opponent's Monsters"],
+        "stats": {"id": 101,
+        "rank": "Legendary",
+        "popularity": "High"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Blue-Eyes Chaos MAX Dragon",
+        "description": "Ritual. This monster can be Ritual Summoned with the Ritual Spell Card, Chaos Form. It must be Ritual Summoned, and cannot be Special Summoned by other ways.",
+        "attack_points": 4000,
+        "is_synchro": false,
+        "release_date": "2016-08-05",
+        "image_url": "https://yugioh.com/cards/blue-eyes-chaos-max-dragon",
+        "type": "Dragon/Ritual",
+        "abilities": ["Double Piercing Damage"],
+        "stats": {"id": 102,
+        "rank": "Ultra Rare",
+        "popularity": "Medium"
+        }
+    },
+    {
+        "id": 3,
+        "name": "Red-Eyes Black Dragon",
+        "description": "A ferocious dragon with a deadly attack.",
+        "attack_points": 2400,
+        "is_synchro": false,
+        "release_date": "1999-03-18",
+        "image_url": "https://yugioh.com/cards/red-eyes-black-dragon",
+        "type": "Dragon",
+        "abilities": ["Increase Attack"],
+        "stats": {"id": 103,
+        "rank": "Rare",
+        "popularity":
+        "High"
+        }
+    },
+    {
+        "id": 4,
+        "name": "Red-Eyes Darkness Metal Dragon",
+        "description": "You can Special Summon this card (from your hand) by banishing 1 face-up Dragon monster you control. You can only Special Summon 'Red-Eyes Darkness Metal Dragon' once per turn this way.",
+        "attack_points": 2800,
+        "is_synchro": false,
+        "release_date": "2008-05-03",
+        "image_url": "https://yugioh.com/cards/red-eyes-darkness-metal-dragon",
+        "type": "Dragon",
+        "abilities": ["Special Summon Dragon"],
+        "stats": {"id": 104,
+        "rank": "Ultra Rare",
+        "popularity": "Very High"
+        }
+    },
+    {
+        "id": 5,
+        "name": "Stardust Dragon",
+        "description": "1 Tuner + 1+ non-Tuner monsters. During either player's turn, when a card or effect is activated that would destroy a card(s) on the field: You can Tribute this card; negate the activation, and if you do, destroy it.",
+        "attack_points": 2500,
+        "is_synchro": true,
+        "release_date": "2008-04-02",
+        "image_url": "https://yugioh.com/cards/stardust-dragon",
+        "type": "Dragon/Synchro",
+        "abilities": ["Negate Destruction"],
+        "stats": {"id": 105,
+        "rank": "Ultra Rare",
+        "popularity": "High"
+        }
+    },
+    {
+        "id": 6,
+        "name": "Majestic Star Dragon",
+        "description": "Majestic Dragon + 'Stardust Dragon' + 1 non-Tuner monster. This card cannot be Special Summoned except by Synchro Summon with the above Synchro Material Monsters.",
+        "attack_points": 3800,
+        "is_synchro": true,
+        "release_date": "2009-11-05",
+        "image_url": "https://yugioh.com/cards/majestic-star-dragon",
+        "type": "Dragon/Synchro",
+        "abilities": ["Multiple Attack Negation"],
+        "stats": {
+            "id": 106,
+            "rank": "Secret Rare",
+            "popularity": "Medium"
+        }
+    },
+    {
+        "id": 7,
+        "name": "Black Rose Dragon",
+        "description": "1 Tuner + 1+ non-Tuner monsters. When this card is Synchro Summoned: You can destroy all cards on the field. Once per turn: You can banish 1 Plant monster from your GY, then target 1 Defense Position monster your opponent controls; change that target to face-up Attack Position, and if you do, its ATK becomes 0 until the end of this turn.",
+        "attack_points": 2400,
+        "is_synchro": true,
+        "release_date": "2008-08-20",
+        "image_url": "https://yugioh.com/cards/black-rose-dragon",
+        "type": "Dragon/Synchro",
+        "abilities": ["Field Destruction"],
+        "stats": {
+            "id": 107,
+            "rank": "Ultra Rare",
+            "popularity": "High"
+        }
+    },
+    {
+        "id": 8,
+        "name": "Black Rose Moonlight Dragon",
+        "description": "1 Tuner + 1+ non-Tuner monsters. If this card is Special Summoned, or a Level 5 or higher monster(s) is Special Summoned to your opponent's field: Target 1 Special Summoned monster your opponent controls; return that target to the hand. You can only use this effect of 'Black Rose Moonlight Dragon' once per turn.",
+        "attack_points": 2400,
+        "is_synchro": true,
+        "release_date": "2014-07-19",
+        "image_url": "https://yugioh.com/cards/black-rose-moonlight-dragon",
+        "type": "Dragon/Synchro",
+        "abilities": ["Monster Return"],
+        "stats": {
+            "id": 108,
+            "rank": "Super Rare",
+            "popularity": "Medium"
+        }
+    },
+    {
+        "id": 9,
+        "name": "Galaxy-Eyes Photon Dragon",
+        "description": "You can Special Summon this card (from your hand) by Tributing 2 monsters with 2000 or more ATK. During the Battle Step, if this card battles an opponent's monster (Quick Effect): You can target that opponent's monster; banish both this card from the field and that target. Return those banished monsters to the field at the end of the Battle Phase, and if you banished an Xyz Monster, this card gains 500 ATK for each material it had when it was banished.",
+        "attack_points": 3000,
+        "is_synchro": false,
+        "release_date": "2011-05-21",
+        "image_url": "https://yugioh.com/cards/galaxy-eyes-photon-dragon",
+        "type": "Dragon",
+        "abilities": ["Banish Battle"],
+        "stats": {
+            "id": 109,
+            "rank": "Ultra Rare",
+            "popularity": "High"
+        }
+    },
+    {
+        "id": 10,
+        "name": "Desperado Barrel Dragon",
+        "description": "If a face-up DARK Machine monster(s) you control is destroyed by battle or card effect: You can Special Summon this card from your hand. Once per turn, during the Battle Phase (Quick Effect): You can toss a coin 3 times; destroy face-up monsters on the field, up to the number of heads, then if the result is 3 heads, draw 1 card. This card cannot attack the turn this effect is activated. If this card is sent to the GY: You can add 1 Level 7 or lower monster that has a coin tossing effect, from your Deck to your hand.",
+        "attack_points": 2800,
+        "is_synchro": false,
+        "release_date": "2017-08-25",
+        "image_url": "https://yugioh.com/cards/desperado-barrel-dragon",
+        "type": "Machine",
+        "abilities": ["Coin Toss Destruction"],
+        "stats": {
+            "id": 110,
+            "rank": "Ultra Rare",
+            "popularity": "Medium"
+        }
+    }
+]

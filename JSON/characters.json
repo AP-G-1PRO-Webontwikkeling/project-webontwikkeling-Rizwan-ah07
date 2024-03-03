@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "Yugi Moto",
+        "image": "https://yugioh.com/characters/yugi",
+        "deck_theme": "Dark Magician",
+        "signature_move": "Dark Magic Attack"
+    },
+    {
+        "id": 2,
+        "name": "Seto Kaiba",
+        "image": "https://yugioh.com/characters/kaiba",
+        "deck_theme": "Blue-Eyes White Dragon",
+        "signature_move": "Burst Stream of Destruction"
+    },
+    {
+        "id": 3,
+        "name": "Joey Wheeler",
+        "image": "https://yugioh.com/characters/joey",
+        "deck_theme": "Red-Eyes Black Dragon",
+        "signature_move": "Red-Eyes Black Dragon Slash"
+    },
+    {
+        "id": 4,
+        "name": "Maximillion Pegasus",
+        "image": "https://yugioh.com/characters/pegasus",
+        "deck_theme": "Toon World",
+        "signature_move": "Toon Summoned Skull Strike"
+    },
+    {
+        "id": 5,
+        "name": "Jaden Yuki",
+        "image": "https://yugioh.com/characters/jaden",
+        "deck_theme": "Elemental HERO",
+        "signature_move": "Elemental HERO Flame Wingman's Skydive Scorcher"
+    },
+    {
+        "id": 6,
+        "name": "Yusei Fudo",
+        "image": "https://yugioh.com/characters/yusei",
+        "deck_theme": "Stardust Dragon/Assault Mode",
+        "signature_move": "Shooting Star Blast"
+    },
+    {
+        "id": 7,
+        "name": "Zane Truesdale",
+        "image": "https://yugioh.com/characters/zane",
+        "deck_theme": "Cyber Dragon",
+        "signature_move": "Cyber End Dragon Finish"
+    },
+    {
+        "id": 8,
+        "name": "Jack Atlas",
+        "image": "https://yugioh.com/characters/jack",
+        "deck_theme": "Red Dragon Archfiend",
+        "signature_move": "Scarlet Nova Explosion"
+    },
+    {
+        "id": 9,
+        "name": "Akiza Izinski",
+        "image": "https://yugioh.com/characters/akiza",
+        "deck_theme": "Black Rose Dragon",
+        "signature_move": "Black Rose Gale"
+    },
+    {
+        "id": 10,
+        "name": "Kite Tenjo",
+        "image": "https://yugioh.com/characters/kite",
+        "deck_theme": "Galaxy-Eyes Photon Dragon",
+        "signature_move": "Photon Stream of Destruction"
+    }
+]
