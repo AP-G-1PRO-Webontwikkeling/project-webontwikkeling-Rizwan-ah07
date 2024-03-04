@@ -2,70 +2,70 @@
     {
         "id": 1,
         "name": "Yugi Moto",
-        "image": "https://yugioh.com/characters/yugi",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Yugi-Moto.png",
         "deck_theme": "Dark Magician",
         "signature_move": "Dark Magic Attack"
     },
     {
         "id": 2,
         "name": "Seto Kaiba",
-        "image": "https://yugioh.com/characters/kaiba",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Seto-Kaiba.png",
         "deck_theme": "Blue-Eyes White Dragon",
         "signature_move": "Burst Stream of Destruction"
     },
     {
         "id": 3,
         "name": "Joey Wheeler",
-        "image": "https://yugioh.com/characters/joey",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Joey-Wheeler.png",
         "deck_theme": "Red-Eyes Black Dragon",
         "signature_move": "Red-Eyes Black Dragon Slash"
     },
     {
         "id": 4,
         "name": "Maximillion Pegasus",
-        "image": "https://yugioh.com/characters/pegasus",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Maximillion-Pegasus.png",
         "deck_theme": "Toon World",
         "signature_move": "Toon Summoned Skull Strike"
     },
     {
         "id": 5,
         "name": "Jaden Yuki",
-        "image": "https://yugioh.com/characters/jaden",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Jaden-Yuki.png",
         "deck_theme": "Elemental HERO",
         "signature_move": "Elemental HERO Flame Wingman's Skydive Scorcher"
     },
     {
         "id": 6,
         "name": "Yusei Fudo",
-        "image": "https://yugioh.com/characters/yusei",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Yusei-Fudo.png",
         "deck_theme": "Stardust Dragon/Assault Mode",
         "signature_move": "Shooting Star Blast"
     },
     {
         "id": 7,
         "name": "Zane Truesdale",
-        "image": "https://yugioh.com/characters/zane",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Zane-Truesdale.png",
         "deck_theme": "Cyber Dragon",
         "signature_move": "Cyber End Dragon Finish"
     },
     {
         "id": 8,
         "name": "Jack Atlas",
-        "image": "https://yugioh.com/characters/jack",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Jack-Atlas.png",
         "deck_theme": "Red Dragon Archfiend",
         "signature_move": "Scarlet Nova Explosion"
     },
     {
         "id": 9,
         "name": "Akiza Izinski",
-        "image": "https://yugioh.com/characters/akiza",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Akiza-Izinski.png",
         "deck_theme": "Black Rose Dragon",
         "signature_move": "Black Rose Gale"
     },
     {
         "id": 10,
         "name": "Kite Tenjo",
-        "image": "https://yugioh.com/characters/kite",
+        "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Kite-Tenjo.png",
         "deck_theme": "Galaxy-Eyes Photon Dragon",
         "signature_move": "Photon Stream of Destruction"
     }
