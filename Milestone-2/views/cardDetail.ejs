@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Detail</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+    <%- include('_navbar') %>
+    <main class="card-background" style="background-image: url('<%= card.bg_url %>');">
+        <article class="card-detail" style="--card-bg-url: url('<%= card.bg_url %>');">
+            <h1><%= card.name %></h1>
+            <img src="<%= card.image_url %>" alt="<%= card.name %>" style="max-width: 200px;">
+            <p><strong>Description:</strong> <%= card.description %></p>
+            <p><strong>Attack Points:</strong> <%= card.attack_points %></p>
+            <p><strong>Defence Points:</strong> <%= card.defence_points %></p>
+            <p><strong>Type:</strong> <%= card.type %></p>
+            <p><strong>Release Date:</strong> <%= card.release_date %></p>
+            <p><strong>Abilities:</strong> <%= card.abilities.join(', ') %></p>
+            <p><strong>Popularity:</strong> <%= card.stats.popularity %></p>
+            <a href="/cards" class="back-link">Back to Cards</a>
+        </article>
+    </main>
+</body>
+</html>

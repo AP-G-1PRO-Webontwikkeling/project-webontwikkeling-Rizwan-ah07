@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= character.name %> Detail</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('_navbar') %>
+    <main class="character-background" style="background-image: url('<%= character.bg_image %>');">
+        <article class="character-detail" style="--character-bg-url: url('<%= character.bg_image %>');">
+            <h1><%= character.name %></h1>
+            <img src="<%= character.image %>" alt="<%= character.name %>" style="max-width: 200px;">
+            
+            <div class="character-content">
+                <p><strong>Deck Theme:</strong> <%= character.deck_theme %></p>
+                <p><strong>Signature Move:</strong> <%= character.signature_move %></p>
+            </div>
+            
+            <% if(relatedCards && relatedCards.length > 0) { %>
+                <section>
+                    <h2>Related Cards</h2>
+                    <ul class="related-cards">
+                        <% relatedCards.forEach(card => { %>
+                            <li><a href="/cards/<%= card.id %>"><%= card.name %></a></li>
+                        <% }) %>
+                    </ul>
+                </section>
+            <% } %>
+            <a href="/characters" class="back-link">Back to Characters</a>
+        </article>
+    </main>
+</body>
+</html>

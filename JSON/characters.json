@@ -1,72 +1,82 @@
 [
     {
-        "id": 1,
+        "id": 101,
         "name": "Yugi Moto",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Yugi-Moto.png",
         "deck_theme": "Dark Magician",
-        "signature_move": "Dark Magic Attack"
+        "signature_move": "Dark Magic Attack",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Yugi-Moto.jpg"
     },
     {
-        "id": 2,
+        "id": 102,
         "name": "Seto Kaiba",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Seto-Kaiba.png",
         "deck_theme": "Blue-Eyes White Dragon",
-        "signature_move": "Burst Stream of Destruction"
+        "signature_move": "Burst Stream of Destruction",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Seto-Kaiba.jpg"
     },
     {
-        "id": 3,
+        "id": 103,
         "name": "Joey Wheeler",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Joey-Wheeler.png",
         "deck_theme": "Red-Eyes Black Dragon",
-        "signature_move": "Red-Eyes Black Dragon Slash"
+        "signature_move": "Red-Eyes Black Dragon Slash",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Joey-Wheeler.jpg"
     },
     {
-        "id": 4,
+        "id": 104,
         "name": "Maximillion Pegasus",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Maximillion-Pegasus.png",
         "deck_theme": "Toon World",
-        "signature_move": "Toon Summoned Skull Strike"
+        "signature_move": "Toon Summoned Skull Strike",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Maximillion-Pegasus.png"
     },
     {
-        "id": 5,
+        "id": 105,
         "name": "Jaden Yuki",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Jaden-Yuki.png",
         "deck_theme": "Elemental HERO",
-        "signature_move": "Elemental HERO Flame Wingman's Skydive Scorcher"
+        "signature_move": "Elemental HERO Flame Wingman's Skydive Scorcher",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Jaden-Yuki.jpg"
     },
     {
-        "id": 6,
+        "id": 106,
         "name": "Yusei Fudo",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Yusei-Fudo.png",
         "deck_theme": "Stardust Dragon/Assault Mode",
-        "signature_move": "Shooting Star Blast"
+        "signature_move": "Shooting Star Blast",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Yusei-Fudo.jpg"
     },
     {
-        "id": 7,
+        "id": 107,
         "name": "Zane Truesdale",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Zane-Truesdale.png",
         "deck_theme": "Cyber Dragon",
-        "signature_move": "Cyber End Dragon Finish"
+        "signature_move": "Cyber End Dragon Finish",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Zane-Truesdale.jpg"
     },
     {
-        "id": 8,
+        "id": 108,
         "name": "Jack Atlas",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Jack-Atlas.png",
         "deck_theme": "Red Dragon Archfiend",
-        "signature_move": "Scarlet Nova Explosion"
+        "signature_move": "Scarlet Nova Explosion",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Jack-Atlas.jpg"
     },
     {
-        "id": 9,
+        "id": 109,
         "name": "Akiza Izinski",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Akiza-Izinski.png",
         "deck_theme": "Black Rose Dragon",
-        "signature_move": "Black Rose Gale"
+        "signature_move": "Black Rose Gale",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Akiza-Izinski.png"
     },
     {
-        "id": 10,
+        "id": 110,
         "name": "Kite Tenjo",
         "image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/Character-Kite-Tenjo.png",
         "deck_theme": "Galaxy-Eyes Photon Dragon",
-        "signature_move": "Photon Stream of Destruction"
+        "signature_move": "Photon Stream of Destruction",
+        "bg_image": "https://raw.githubusercontent.com/AP-G-1PRO-Webontwikkeling/project-webontwikkeling-Rizwan-ah07/main/assets/images/BG-Kite-Tenjp.jpg"
     }
 ]

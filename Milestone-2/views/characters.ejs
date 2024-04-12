@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Characters Overview</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <%- include('_navbar') %>
+    <header>
+    <h1>Card and Character Viewer</h1>
+
+    <form action="/characters" method="GET">
+        <input type="text" name="search" placeholder="Search by name..." value="<%= searchQuery || '' %>">
+        
+        <label for="sortField">Sort by:</label>
+        <select name="sortField" id="sortField">
+            <option value="name" <% if(sortField === 'name') { %>selected<% } %>>Name</option>
+        </select>
+    
+        <label for="sortOrder">Order:</label>
+        <select name="sortOrder" id="sortOrder">
+            <option value="asc" <% if(sortOrder === 'asc') { %>selected<% } %>>Ascending</option>
+            <option value="desc" <% if(sortOrder === 'desc') { %>selected<% } %>>Descending</option>
+        </select>
+    
+        <button type="submit">Update</button>
+    </form>
+    </header>
+    <main>
+    <h2>Characters</h2>
+    <table>
+        <thead>
+            <tr>
+                <th><a href="/characters?sortField=name&sortOrder=<%= sortOrder === 'asc' && sortField === 'name' ? 'desc' : 'asc' %>">Name</a></th>
+                <th>Deck Theme</th>
+                <th>Signature Move</th>
+                <th>More Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% characters.forEach(character => { %>
+                <tr>
+                    <td><img src="<%= character.image %>" alt="Icon" class="character-icon"><%= character.name %></td>
+                    <td><%= character.deck_theme %></td>
+                    <td><%= character.signature_move %></td>
+                    <td><a href="/characters/<%= character.id %>">View Details</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    </main>
+</body>
+</html>

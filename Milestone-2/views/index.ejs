@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <%- include('_navbar') %>
+    <header>
+        <h1>Yu-Gi-OH! Card and Character Viewer</h1>
+    </header>
+
+
+    <main>
+    <section>
+        <ul>
+            <li><a href="/cards">View Cards</a></li>
+            <li><a href="/characters">View Characters</a></li>
+        </ul>
+        <h2>About This Site</h2>
+        <p> Explore a collection of cards and characters. Discover the unique attributes of each card and delve into the details of each character.</p>
+    </section>
+    </main>
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> Rizwan Hussain - Web Ontwikkeling Project</p>
+    </footer>
+
+</body>
+</html>
