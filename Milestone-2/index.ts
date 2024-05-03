@@ -1,10 +1,9 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
-import { Card } from '../Milestone-1/interfaces';
-import { Character } from '../Milestone-1/interfaces';
-import cardsDataJson from '../JSON/cards.json';
-import charactersDataJson from '../JSON/characters.json';
+import fetch from 'node-fetch'; 
+import { Card, Character } from '../Milestone-1/interfaces';
+import { connectDb } from './database'; 
 
 dotenv.config();
 
@@ -18,10 +17,18 @@ app.set('views', path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT || 3000);
 
-// card
-const cardsData: Card[] = cardsDataJson as Card[];
-const charactersData: Character[] = charactersDataJson as Character[];
+// URLs of the JSON files in GitHub
+const cardsUrl = 'https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/cards.json';
+const charactersUrl = 'https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/characters.json';
+async function fetchJsonData(url: string) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+}
 
+// Home route
 app.get("/", (req: Request, res: Response) => {
     res.render("index", {
         title: "Home",
@@ -29,107 +36,76 @@ app.get("/", (req: Request, res: Response) => {
     });
 });
 
-// Sorteer
-app.get("/cards", (req: Request, res: Response) => {
-    let searchQuery = req.query.search as string;
+// Cards route
+app.get("/cards", async (req: Request, res: Response) => {
+    const cardsData: Card[] = await fetchJsonData(cardsUrl) as Card[];
+    let searchQuery = req.query.search as string || ''; // Default to an empty string if not provided
     let sortField = req.query.sortField as string || 'name'; 
     let sortOrder = req.query.sortOrder as string || 'asc';  
 
-    let filteredData = cardsData;
+    let filteredData = searchQuery ? cardsData.filter(card => card.name.toLowerCase().includes(searchQuery.toLowerCase())) : cardsData;
 
-    filteredData.sort((a:any, b:any) => {
+    // Sorting
+    filteredData.sort((a: any, b: any) => {
         if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
         if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
         return 0;
     });
 
-        // search bar
-        if (searchQuery) {
-            searchQuery = searchQuery.toLowerCase(); 
-            filteredData = filteredData.filter(card =>
-                card.name.toLowerCase().includes(searchQuery)
-            );
-        }
-
-
     res.render("cards", {
         cards: filteredData,
-        searchQuery: searchQuery,
-        sortField: sortField,
-        sortOrder: sortOrder
+        searchQuery,
+        sortField,
+        sortOrder
     });
-    
-    filteredData.sort((a:any, b:any) => {
-        let fieldA = a[sortField];
-        let fieldB = b[sortField];
-        // attack and defence points
-        if (!isNaN(Number(fieldA)) && !isNaN(Number(fieldB))) {
-          fieldA = Number(fieldA);
-          fieldB = Number(fieldB);
-        }
-        if (fieldA < fieldB) return sortOrder === 'asc' ? -1 : 1;
-        if (fieldA > fieldB) return sortOrder === 'asc' ? 1 : -1;
-        return 0;
-      });
 });
 
-
-
-app.get("/cards/:id", (req: Request, res: Response) => {
-
-    const card = cardsData.find((c: Card) => c.id.toString() === req.params.id);
+// Single card detail route
+app.get("/cards/:id", async (req: Request, res: Response) => {
+    const cardsData: Card[] = await fetchJsonData(cardsUrl) as Card[];
+    const card = cardsData.find(c => c.id.toString() === req.params.id);
     if (!card) {
         return res.status(404).send("Card not found");
     }
     res.render("cardDetail", { card });
 });
 
-//character 
-app.get("/characters", (req: Request, res: Response) => {
-    //sort
-    let searchQuery = req.query.search as string;
+// Characters route
+app.get("/characters", async (req: Request, res: Response) => {
+    const charactersData: Character[] = await fetchJsonData(charactersUrl) as Character[];
+    let searchQuery = req.query.search as string || ''; // Default to an empty string if not provided
     let sortField = req.query.sortField as string || 'name'; 
     let sortOrder = req.query.sortOrder as string || 'asc';  
 
-    let filteredData = charactersData;
+    let filteredData = searchQuery ? charactersData.filter(character => character.name.toLowerCase().includes(searchQuery.toLowerCase())) : charactersData;
 
-    filteredData.sort((a:any, b:any) => {
+    // Sorting
+    filteredData.sort((a: any, b: any) => {
         if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
         if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
         return 0;
     });
 
-        // search
-        if (searchQuery) {
-            searchQuery = searchQuery.toLowerCase(); // Case-insensitive matching
-            filteredData = filteredData.filter(character =>
-                character.name.toLowerCase().includes(searchQuery)
-            );
-        }
-
     res.render("characters", {
         characters: filteredData,
-        searchQuery: searchQuery,
-        sortField: sortField,
-        sortOrder: sortOrder
+        searchQuery,
+        sortField,
+        sortOrder
     });
 });
 
+// Single character detail route
 app.get("/characters/:id", async (req, res) => {
-    const characterId = parseInt(req.params.id);
-    const character = charactersData.find(c => c.id === characterId);
-
+    const charactersData: Character[] = await fetchJsonData(charactersUrl) as Character[];
+    const character = charactersData.find(c => c.id === parseInt(req.params.id));
     if (!character) {
         return res.status(404).send("Character not found");
     }
-
-    const relatedCards = cardsData.filter(card => card.characterId === characterId);
+    const cardsData: Card[] = await fetchJsonData(cardsUrl) as Card[];
+    const relatedCards = cardsData.filter(card => card.characterId === character.id);
     res.render("characterDetail", { character, relatedCards });
 });
-
 
 app.listen(app.get("port"), () => {
     console.log(`Server started on http://localhost:${app.get('port')}`);
 });
-
-
