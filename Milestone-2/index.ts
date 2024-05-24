@@ -3,9 +3,11 @@ import dotenv from "dotenv";
 import path from "path";
 import fetch from 'node-fetch'; 
 import { Card, Character } from '../Milestone-1/interfaces';
-import { connectDb } from './database'; 
+import { connectDb, initializeDb } from './database'; 
+import { ObjectId } from 'mongodb'; 
 
 dotenv.config();
+
 
 const app: Express = express();
 
@@ -16,6 +18,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT || 3000);
+
+initializeDb();
 
 // URLs of the JSON files in GitHub
 const cardsUrl = 'https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/cards.json';
@@ -39,7 +43,7 @@ app.get("/", (req: Request, res: Response) => {
 // Cards route
 app.get("/cards", async (req: Request, res: Response) => {
     const cardsData: Card[] = await fetchJsonData(cardsUrl) as Card[];
-    let searchQuery = req.query.search as string || ''; // Default to an empty string if not provided
+    let searchQuery = req.query.search as string || ''; 
     let sortField = req.query.sortField as string || 'name'; 
     let sortOrder = req.query.sortOrder as string || 'asc';  
 
@@ -62,18 +66,53 @@ app.get("/cards", async (req: Request, res: Response) => {
 
 // Single card detail route
 app.get("/cards/:id", async (req: Request, res: Response) => {
-    const cardsData: Card[] = await fetchJsonData(cardsUrl) as Card[];
-    const card = cardsData.find(c => c.id.toString() === req.params.id);
+    const db = await connectDb();
+    const cardsCollection = db.collection('cards');
+    const card = await cardsCollection.findOne({ _id: new ObjectId(req.params.id) });
+
     if (!card) {
         return res.status(404).send("Card not found");
     }
+
     res.render("cardDetail", { card });
+});
+
+app.get("/cards/:id/edit", async (req: Request, res: Response) => {
+    const db = await connectDb();
+    const cardsCollection = db.collection('cards');
+    const card = await cardsCollection.findOne({ _id: new ObjectId(req.params.id) });
+
+    if (!card) {
+        return res.status(404).send("Card not found");
+    }
+
+    res.render("cardEdit", { card });
+});
+
+app.post("/cards/:id/edit", async (req: Request, res: Response) => {
+    const db = await connectDb();
+    const cardsCollection = db.collection('cards');
+    const updatedCard = {
+        name: req.body.name,
+        description: req.body.description,
+        attack_points: req.body.attack_points,
+        defence_points: req.body.defence_points,
+        type: req.body.type,
+        release_date: req.body.release_date,
+        abilities: req.body.abilities,
+        stats: { popularity: req.body.popularity },
+        bg_url: req.body.bg_url,
+        image_url: req.body.image_url
+    };
+
+    await cardsCollection.updateOne({ _id: new ObjectId(req.params.id) }, { $set: updatedCard });
+    res.redirect(`/cards/${req.params.id}`);
 });
 
 // Characters route
 app.get("/characters", async (req: Request, res: Response) => {
     const charactersData: Character[] = await fetchJsonData(charactersUrl) as Character[];
-    let searchQuery = req.query.search as string || ''; // Default to an empty string if not provided
+    let searchQuery = req.query.search as string || ''; 
     let sortField = req.query.sortField as string || 'name'; 
     let sortOrder = req.query.sortOrder as string || 'asc';  
 
