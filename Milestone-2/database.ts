@@ -1,10 +1,11 @@
 import { MongoClient, Db, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
+import fetch from 'node-fetch'; 
 
 dotenv.config();
 
 const url: string = process.env.MONGODB_URI as string;
-const dbName: string = 'cardCharacterDB';
+const dbName: string = 'Yu-Gi-Oh';
 const client: MongoClient = new MongoClient(url);
 
 async function connectDb(): Promise<Db> {
@@ -33,10 +34,21 @@ async function initializeDb() {
   const characterCount = await db.collection('characters').countDocuments();
   
   if (cardCount === 0) {
-    await fetchAndStoreData('https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/cards.json', 'cards');
+    const cardsUrl = 'https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/cards.json';
+    const response = await fetch(cardsUrl);
+    const cardsData = await response.json();
+    // Convert characterId to ObjectId if it's a valid hex string
+    const updatedCardsData = cardsData.map((card: any) => ({
+      ...card,
+      characterId: card.characterId && ObjectId.isValid(card.characterId) ? new ObjectId(card.characterId) : undefined
+    }));
+    await db.collection('cards').insertMany(updatedCardsData);
   }
   if (characterCount === 0) {
-    await fetchAndStoreData('https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/characters.json', 'characters');
+    const charactersUrl = 'https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/characters.json';
+    const response = await fetch(charactersUrl);
+    const charactersData = await response.json();
+    await db.collection('characters').insertMany(charactersData);
   }
 }
 

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Detail</title>
     <link rel="stylesheet" href="/css/style.css">
-
 </head>
 <body>
     <%- include('_navbar') %>
@@ -21,6 +20,7 @@
             <p><strong>Abilities:</strong> <%= card.abilities.join(', ') %></p>
             <p><strong>Popularity:</strong> <%= card.stats.popularity %></p>
             <a href="/cards" class="back-link">Back to Cards</a>
+            <a href="/cards/<%= card._id %>/edit" class="edit-link">Edit Card</a>
         </article>
     </main>
 </body>
