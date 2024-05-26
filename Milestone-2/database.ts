@@ -10,9 +10,9 @@ export const MONGODB_URI = process.env.MONGO_URI ?? "mongodb+srv://s151398:Web-o
 const client = new MongoClient(MONGODB_URI);
 const saltRounds: number = 10;
 
-export const CardCollection: Collection<Card> = client.db("Web-Ontwikkeling-project").collection<Card>("cards");
-export const CharacterCollection: Collection<Character> = client.db("Web-Ontwikkeling-project").collection<Character>("characters");
-export const userCollection: Collection<User> = client.db("Web-Ontwikkeling-project").collection<User>("users");
+export const CardCollection: Collection<Card> = client.db("Yu-Gi-Oh-Cards").collection<Card>("cards");
+export const CharacterCollection: Collection<Character> = client.db("Yu-Gi-Oh-Cards").collection<Character>("characters");
+export const UserCollection: Collection<User> = client.db("Yu-Gi-Oh-Cards").collection<User>("users");
 
 const cardsUrl = 'https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/cards.json';
 const charactersUrl = 'https://raw.githubusercontent.com/Rizwan-ah07/Web-Ontwikkeling-Data/main/characters.json';
@@ -43,27 +43,31 @@ export async function findCharacterById(id: ObjectId) {
 }
 
 export async function findUserByEmail(email: string) {
-    return await userCollection.findOne({ email: email });
+    return await UserCollection.findOne({ email: email });
 }
 
 export async function updateCardById(id: ObjectId, updateData: Partial<Card>) {
     return await CardCollection.updateOne({ _id: id }, { $set: updateData });
 }
 
-async function createInitialUser() {
-    if (await userCollection.countDocuments() > 0) { return; }
-    let email: string | undefined = process.env.ADMIN_EMAIL;
-    let password: string | undefined = process.env.ADMIN_PASSWORD;
+async function createInitialUsers() {
+    if (await UserCollection.countDocuments() > 0) { return; }
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const userEmail = process.env.USER_EMAIL;
+    const userPassword = process.env.USER_PASSWORD;
 
-    if (email === undefined || password === undefined) {
-        throw new Error("Email or password must be set in the environment");
+    if (!adminEmail || !adminPassword || !userEmail || !userPassword) {
+        throw new Error("Admin and User email or password must be set in the environment");
     }
 
-    await userCollection.insertOne({
-        email: email,
-        password: await bcrypt.hash(password, saltRounds),
-        role: "ADMIN"
-    });
+    const adminHash = await bcrypt.hash(adminPassword, saltRounds);
+    const userHash = await bcrypt.hash(userPassword, saltRounds);
+
+    await UserCollection.insertMany([
+        { email: adminEmail, password: adminHash, role: "ADMIN" },
+        { email: userEmail, password: userHash, role: "USER" }
+    ]);
 }
 
 export async function login(email: string, password: string) {
@@ -126,7 +130,7 @@ export async function register(email: string, password: string) {
         role: "USER"
     };
     
-    const result = await userCollection.insertOne(newUser);
+    const result = await UserCollection.insertOne(newUser);
     return result.insertedId;
 }
 
@@ -143,7 +147,7 @@ async function exit() {
 export async function connect() {
     try {
         await client.connect();
-        await createInitialUser();
+        await createInitialUsers();
         await loadDataToTheDatabase();
         console.log("Connected to the database");
         process.on('SIGINT', exit);

@@ -539,6 +539,11 @@ th a {
   margin-bottom: 1em; 
 }
 
+.card-edit-select{
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #486eb5;
+}
+
 .card-edit-textarea {
   resize: vertical;
 }
