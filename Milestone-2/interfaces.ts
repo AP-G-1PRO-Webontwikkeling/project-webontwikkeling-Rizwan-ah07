@@ -30,3 +30,11 @@ export interface Character {
     signature_move: string;
     bg_image: string;
 }
+
+export interface User{
+    _id?: ObjectId;
+    role : "ADMIN" | "USER";
+    email : string;
+    password? : string;
+  }
+  

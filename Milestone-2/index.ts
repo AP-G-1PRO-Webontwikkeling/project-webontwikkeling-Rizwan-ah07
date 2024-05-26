@@ -1,14 +1,20 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
-import fetch from 'node-fetch'; 
+import session from "express-session";
 import { Card, Character } from '../Milestone-1/interfaces';
-import { connectDb, initializeDb } from './database'; 
-import { ObjectId } from 'mongodb'; 
+import { connect, getAllCards, getAllCharacters, findCardById, findCharacterById, login, register, updateCardById, CharacterCollection, CardCollection } from "./database";
+import { ObjectId } from "mongodb";
 
 dotenv.config();
-
 const app: Express = express();
+const port = process.env.PORT || 3000;
+
+declare module "express-session" {
+    interface SessionData {
+        user: { [key: string]: any };
+    }
+}
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -16,80 +22,70 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
 
-app.set("port", process.env.PORT || 3000);
+app.use(session({
+    secret: 'your secret key',
+    resave: false,
+    saveUninitialized: true
+}));
 
-// Initialize the database
-initializeDb();
-
-// Home route
 app.get("/", (req: Request, res: Response) => {
-    res.render("index", {
-        title: "Home",
-        message: "Welcome to the Card and Character Viewer!"
-    });
+    res.render("index", { title: "Home", message: "Welcome to the Card and Character Viewer!" });
 });
 
-// Cards route
 app.get("/cards", async (req: Request, res: Response) => {
     try {
-        const db = await connectDb();
-        const collection = db.collection<Card>('cards');
-        const searchQuery = req.query.search as string || '';
-        const sortField = req.query.sortField as string || 'name';
-        const sortOrder = req.query.sortOrder as string || 'asc';
-        const query = searchQuery ? { name: { $regex: searchQuery, $options: 'i' } } : {};
+        const searchQuery = (req.query.search as string) || '';
+        const sortField = (req.query.sortField as string) || 'name';
+        const sortOrder = (req.query.sortOrder as string) || 'asc';
         const sortOrderNumeric = sortOrder === 'asc' ? 1 : -1;
-        const sort: Record<string, 1 | -1> = { [sortField]: sortOrderNumeric };
-        const cards = await collection.find(query).sort(sort).toArray();
-        res.render("cards", { cards, searchQuery, sortField, sortOrder });
+        const cards = await getAllCards();
+        const filteredCards = cards.filter(card => card.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        const sortedCards = filteredCards.sort((a, b) => {
+            const fieldA = a[sortField as keyof Card];
+            const fieldB = b[sortField as keyof Card];
+            if (fieldA && fieldB) {
+                if (fieldA < fieldB) return sortOrderNumeric;
+                if (fieldA > fieldB) return -sortOrderNumeric;
+            }
+            return 0;
+        });
+        res.render("cards", { cards: sortedCards, searchQuery, sortField, sortOrder });
     } catch (error) {
         console.error("Failed to retrieve cards:", error);
         res.status(500).send("Error retrieving card list");
     }
 });
 
-// Single card detail route
 app.get("/cards/:id", async (req: Request, res: Response) => {
-    try {
-        const db = await connectDb();
-        const id = req.params.id;
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).send("Invalid ID format");
-        }
-    
-        const card = await db.collection<Card>('cards').findOne({ _id: new ObjectId(id) });
-        if (!card) {
-            return res.status(404).send("Card not found");
-        }
-        res.render("cardDetail", { card });
-    } catch (error) {
-        console.error("Failed to retrieve card:", error);
-        res.status(500).send("Error retrieving card");
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+        console.error("Invalid card ID format:", id);
+        return res.status(400).send("Invalid ID format");
     }
+
+    const card = await CardCollection.findOne({ id: id });
+    if (!card) {
+        return res.status(404).send("Card not found");
+    }
+    res.render("cardDetail", { card });
 });
 
-// Edit card route
 app.get("/cards/:id/edit", async (req: Request, res: Response) => {
-    try {
-        const db = await connectDb();
-        const id = req.params.id;
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).send("Invalid ID format");
-        }
-        const card = await db.collection<Card>('cards').findOne({ _id: new ObjectId(id) });
-        if (!card) return res.status(404).send("Card not found");
-        res.render("cardEdit", { card });
-    } catch (error) {
-        console.error("Failed to retrieve card for editing:", error);
-        res.status(500).send("Error retrieving card for editing");
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+        console.error("Invalid card ID format:", id);
+        return res.status(400).send("Invalid ID format");
     }
+
+    const card = await CardCollection.findOne({ id: id });
+    if (!card) return res.status(404).send("Card not found");
+    res.render("editCard", { card });
 });
 
 app.post("/cards/:id/edit", async (req: Request, res: Response) => {
     try {
-        const db = await connectDb();
-        const id = req.params.id;
-        if (!ObjectId.isValid(id)) {
+        const id = parseInt(req.params.id);
+        if (isNaN(id)) {
             return res.status(400).send("Invalid ID format");
         }
         const updateData: Partial<Card> = {
@@ -97,10 +93,10 @@ app.post("/cards/:id/edit", async (req: Request, res: Response) => {
             description: req.body.description,
             attack_points: parseInt(req.body.attack_points),
             defence_points: parseInt(req.body.defence_points),
-            type: req.body.type,
+            type: req.body.type
         };
 
-        const result = await db.collection<Card>('cards').updateOne({ _id: new ObjectId(id) }, { $set: updateData });
+        const result = await CardCollection.updateOne({ id: id }, { $set: updateData });
         if (result.modifiedCount === 0) {
             return res.status(404).send("No updates made, card not found.");
         }
@@ -111,48 +107,80 @@ app.post("/cards/:id/edit", async (req: Request, res: Response) => {
     }
 });
 
-// Characters route
 app.get("/characters", async (req: Request, res: Response) => {
+    const searchQuery = (req.query.search as string) || '';
+    const sortField = (req.query.sortField as string) || 'name';
+    const sortOrder = (req.query.sortOrder as string) || 'asc';
+    const sortOrderNumeric = sortOrder === 'asc' ? 1 : -1;
+
+    const characters = await getAllCharacters();
+    const filteredCharacters = characters.filter(character => character.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const sortedCharacters = filteredCharacters.sort((a, b) => {
+        const fieldA = a[sortField as keyof Character];
+        const fieldB = b[sortField as keyof Character];
+        if (fieldA && fieldB) {
+            if (fieldA < fieldB) return sortOrderNumeric;
+            if (fieldA > fieldB) return -sortOrderNumeric;
+        }
+        return 0;
+    });
+
+    res.render("characters", { characters: sortedCharacters, searchQuery, sortField, sortOrder });
+});
+
+app.get("/characters/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
+    let character;
+    let relatedCards = [];
+    if (ObjectId.isValid(id)) {
+        character = await findCharacterById(new ObjectId(id));
+    } else {
+        character = await CharacterCollection.findOne({ id: parseInt(id) });
+    }
+
+    if (character) {
+        relatedCards = await CardCollection.find({ characterId: character.id }).toArray();
+    } else {
+        console.error("Character not found for ID:", id);
+        res.redirect("/?error=characterNotFound");
+        return;
+    }
+
+    res.render("characterDetail", { character, relatedCards });
+});
+
+app.post("/login", async (req: Request, res: Response) => {
     try {
-        const db = await connectDb();
-        const collection = db.collection<Character>('characters');
-        const searchQuery = req.query.search as string || '';
-        const sortField = req.query.sortField as string || 'name';
-        const sortOrder = req.query.sortOrder as string || 'asc';
-        const query = searchQuery ? { name: { $regex: searchQuery, $options: 'i' } } : {};
-        const sortOrderNumeric = sortOrder === 'asc' ? 1 : -1;
-        const sort: Record<string, 1 | -1> = { [sortField]: sortOrderNumeric };
-        const characters = await collection.find(query).sort(sort).toArray();
-        res.render("characters", { characters, searchQuery, sortField, sortOrder });
+        const { email, password } = req.body;
+        const user = await login(email, password);
+        if (req.session) {
+            req.session.user = user;
+        }
+        res.redirect("/");
     } catch (error) {
-        console.error("Failed to retrieve characters:", error);
-        res.status(500).send("Error retrieving character list");
+        if (error instanceof Error) {
+            res.status(401).send(error.message);
+        } else {
+            res.status(401).send("Unknown error occurred");
+        }
     }
 });
 
-// Single character detail route
-app.get("/characters/:id", async (req, res) => {
+app.post("/register", async (req: Request, res: Response) => {
     try {
-        const db = await connectDb();
-        const id = req.params.id;
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).send("Invalid ID format");
-        }
-        const charactersCollection = db.collection<Character>('characters');
-        const cardsCollection = db.collection<Card>('cards');
-        const character = await charactersCollection.findOne({ _id: new ObjectId(id) });
-
-        if (!character) {
-            return res.status(404).send("Character not found");
-        }
-
-        const relatedCards = await cardsCollection.find({ characterId: character.id }).toArray();
-        res.render("characterDetail", { character, relatedCards });
+        const { email, password } = req.body;
+        await register(email, password);
+        res.redirect("/login");
     } catch (error) {
-        console.error("Failed to retrieve character:", error);
-        res.status(500).send("Error retrieving character");
+        if (error instanceof Error) {
+            res.status(400).send(error.message);
+        } else {
+            res.status(400).send("Unknown error occurred");
+        }
     }
 });
-app.listen(app.get("port"), () => {
-    console.log(`Server started on http://localhost:${app.get('port')}`);
+
+app.listen(port, async () => {
+    await connect();
+    console.log(`[server] http://localhost:${port}`);
 });
