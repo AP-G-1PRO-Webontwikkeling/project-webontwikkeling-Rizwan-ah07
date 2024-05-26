@@ -5,40 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Card</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background-image: url('/assets/card-edit-bg.jpg');
+            background-size: cover;
+            background-position: center center;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <%- include('_navbar') %>
-    <header>
+    <header class="card-edit-header">
         <h1>Edit Card Details</h1>
     </header>
-    <main>
-        <section>
-            <form action="/cards/<%= card.id %>/edit" method="post">
-                <fieldset>
-                    <legend>Card Information</legend>
+    <main class="card-edit-main">
+        <section class="card-edit-section">
+            <form action="/cards/<%= card.id %>/edit" method="post" class="card-edit-form">
+                <fieldset class="card-edit-fieldset">
+                    <legend class="card-edit-legend">Card Information</legend>
                     <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" value="<%= card.name %>" required>
+                        <label for="name" class="card-edit-label">Name:</label>
+                        <input type="text" id="name" name="name" value="<%= card.name %>" required class="card-edit-input">
                     </div>
 
                     <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea id="description" name="description" required><%= card.description %></textarea>
+                        <label for="description" class="card-edit-label">Description:</label>
+                        <textarea id="description" name="description" required class="card-edit-textarea"><%= card.description %></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="attack_points">Attack Points:</label>
-                        <input type="number" id="attack_points" name="attack_points" value="<%= card.attack_points %>" required>
+                        <label for="attack_points" class="card-edit-label">Attack Points:</label>
+                        <input type="number" id="attack_points" name="attack_points" value="<%= card.attack_points %>" required class="card-edit-input">
                     </div>
 
                     <div class="form-group">
-                        <label for="defence_points">Defence Points:</label>
-                        <input type="number" id="defence_points" name="defence_points" value="<%= card.defence_points %>" required>
+                        <label for="defence_points" class="card-edit-label">Defence Points:</label>
+                        <input type="number" id="defence_points" name="defence_points" value="<%= card.defence_points %>" required class="card-edit-input">
                     </div>
 
                     <div class="form-group">
-                        <label for="type">Type:</label>
-                        <select id="type" name="type" required>
+                        <label for="type" class="card-edit-label">Type:</label>
+                        <select id="type" name="type" required class="card-edit-select">
                             <option value="Normal" <%= card.type === 'Normal' ? 'selected' : '' %>>Normal</option>
                             <option value="Effect" <%= card.type === 'Effect' ? 'selected' : '' %>>Effect</option>
                             <option value="Ritual" <%= card.type === 'Ritual' ? 'selected' : '' %>>Ritual</option>
@@ -53,13 +63,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="is_synchro">Is Synchro:</label>
-                        <input type="checkbox" id="is_synchro" name="is_synchro" <%= card.is_synchro ? 'checked' : '' %>>
+                        <label for="is_synchro" class="card-edit-label">Is Synchro:</label>
+                        <input type="checkbox" id="is_synchro" name="is_synchro" class="card-edit-checkbox" <%= card.is_synchro ? 'checked' : '' %>>
                     </div>
                 </fieldset>
 
-                <footer>
-                    <button type="submit">Save Changes</button>
+                <footer class="card-edit-footer">
+                    <button type="submit" class="card-edit-button">Save Changes</button>
                 </footer>
             </form>
         </section>
