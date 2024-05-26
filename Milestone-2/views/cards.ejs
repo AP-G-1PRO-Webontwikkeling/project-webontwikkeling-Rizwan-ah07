@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cards Overview</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .synchro-true {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .synchro-false {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+
+
+    </style>
 </head>
 <body>
     <%- include('_navbar') %>
@@ -19,6 +34,7 @@
                 <option value="name" <% if(sortField === 'name') { %>selected<% } %>>Name</option>
                 <option value="attack_points" <% if(sortField === 'attack_points') { %>selected<% } %>>Attack Points</option>
                 <option value="defence_points" <% if(sortField === 'defence_points') { %>selected<% } %>>Defence Points</option>
+                <option value="is_synchro" <% if(sortField === 'is_synchro') { %>selected<% } %>>Synchro</option>
             </select>
         
             <label for="sortOrder">Order:</label>
@@ -39,6 +55,7 @@
                     <th>Description</th>
                     <th><a href="/cards?sortField=attack_points&sortOrder=<%= sortOrder === 'asc' && sortField === 'attack_points' ? 'desc' : 'asc' %>">Attack Points</a></th>
                     <th><a href="/cards?sortField=defence_points&sortOrder=<%= sortOrder === 'asc' && sortField === 'defence_points' ? 'desc' : 'asc' %>">Defence Points</a></th>
+                    <th class="synchro-column"><a href="/cards?sortField=is_synchro&sortOrder=<%= sortOrder === 'asc' && sortField === 'is_synchro' ? 'desc' : 'asc' %>">Synchro</a></th>
                     <th>More Information</th>
                 </tr>
             </thead>
@@ -49,7 +66,10 @@
                         <td><%= card.description %></td>
                         <td><%= card.attack_points %></td>
                         <td><%= card.defence_points %></td>
-                        <td><a href="/cards/<%= card.id %>">View Details</a></td> 
+                        <td class="<%= card.is_synchro ? 'synchro-true' : 'synchro-false' %>">
+                            <%= card.is_synchro ? '✔' : '✘' %>
+                        </td>
+                        <td><a href="/cards/<%= card.id %>">View Details</a></td>
                     </tr>
                 <% }) %>
             </tbody>

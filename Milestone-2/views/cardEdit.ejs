@@ -13,7 +13,7 @@
     </header>
     <main>
         <section>
-            <form action="/cards/<%= card._id %>/edit" method="post">
+            <form action="/cards/<%= card.id %>/edit" method="post">
                 <fieldset>
                     <legend>Card Information</legend>
                     <div class="form-group">
@@ -50,6 +50,11 @@
                             <option value="Spell" <%= card.type === 'Spell' ? 'selected' : '' %>>Spell</option>
                             <option value="Trap" <%= card.type === 'Trap' ? 'selected' : '' %>>Trap</option>
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="is_synchro">Is Synchro:</label>
+                        <input type="checkbox" id="is_synchro" name="is_synchro" <%= card.is_synchro ? 'checked' : '' %>>
                     </div>
                 </fieldset>
 

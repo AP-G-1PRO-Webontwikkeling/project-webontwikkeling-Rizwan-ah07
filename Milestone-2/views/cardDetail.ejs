@@ -20,7 +20,7 @@
             <p><strong>Abilities:</strong> <%= card.abilities.join(', ') %></p>
             <p><strong>Popularity:</strong> <%= card.stats.popularity %></p>
             <a href="/cards" class="back-link">Back to Cards</a>
-            <a href="/cards/<%= card._id %>/edit" class="edit-link">Edit Card</a>
+            <a href="/cards/<%= card.id %>/edit" class="edit-link">Edit Card</a>
         </article>
     </main>
 </body>

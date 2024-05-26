@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
 import { Card, Character } from '../Milestone-1/interfaces';
-import { connect, getAllCards, getAllCharacters, findCardById, findCharacterById, login, register, updateCardById, CharacterCollection, CardCollection } from "./database";
+import { connect, getAllCards, getAllCharacters, findCardById, findCharacterById, login, register, updateCardById, CharacterCollection, CardCollection } from "./database"; // Make sure to import CharacterCollection and CardCollection
 import { ObjectId } from "mongodb";
 
 dotenv.config();
@@ -43,7 +43,7 @@ app.get("/cards", async (req: Request, res: Response) => {
         const sortedCards = filteredCards.sort((a, b) => {
             const fieldA = a[sortField as keyof Card];
             const fieldB = b[sortField as keyof Card];
-            if (fieldA && fieldB) {
+            if (fieldA != undefined && fieldB != undefined) {
                 if (fieldA < fieldB) return sortOrderNumeric;
                 if (fieldA > fieldB) return -sortOrderNumeric;
             }
@@ -79,7 +79,7 @@ app.get("/cards/:id/edit", async (req: Request, res: Response) => {
 
     const card = await CardCollection.findOne({ id: id });
     if (!card) return res.status(404).send("Card not found");
-    res.render("editCard", { card });
+    res.render("cardEdit", { card });
 });
 
 app.post("/cards/:id/edit", async (req: Request, res: Response) => {
@@ -88,19 +88,23 @@ app.post("/cards/:id/edit", async (req: Request, res: Response) => {
         if (isNaN(id)) {
             return res.status(400).send("Invalid ID format");
         }
+
+        const isSynchro = req.body.is_synchro === 'on'; // Handle boolean value
+
         const updateData: Partial<Card> = {
             name: req.body.name,
             description: req.body.description,
             attack_points: parseInt(req.body.attack_points),
             defence_points: parseInt(req.body.defence_points),
-            type: req.body.type
+            type: req.body.type,
+            is_synchro: isSynchro // Set the boolean value
         };
 
         const result = await CardCollection.updateOne({ id: id }, { $set: updateData });
         if (result.modifiedCount === 0) {
             return res.status(404).send("No updates made, card not found.");
         }
-        res.redirect(`/cards/${req.params.id}`);
+        res.redirect(`/cards/${id}`);
     } catch (error) {
         console.error("Failed to update the card:", error);
         res.status(500).send("Error updating card");

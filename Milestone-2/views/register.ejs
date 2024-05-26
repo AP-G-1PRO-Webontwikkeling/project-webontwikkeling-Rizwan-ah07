@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="style/style.css">
+        <title>Document</title>
+      </head>
+<body>
+<main class="register-container">
+    <form class="register-form" action="/register" method="post">
+        <h1 style="text-align: center; margin-bottom: 1em;">REGISTER</h1>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+
+        <div class="register-buttons">
+            <button type="submit" class="btn-register">Register</button>
+        </div>
+        <p style="text-align: center; font-weight: 700; margin-top: 1em;" >heb je al een account, <a href="/login">log in </a></p>   
+        <% if (typeof error !== 'undefined') { %>
+            <div class="error-message"><%= error %></div>
+        <% } %>
+    </form>
+</main>
+
+</body>
+</html>
