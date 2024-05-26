@@ -19,18 +19,14 @@
             font-weight: bold;
             text-align: center;
         }
-
-
     </style>
 </head>
 <body>
     <%- include('partials/navbar') %>
     <header>
         <h1>Card and Character Viewer</h1>
-
         <form action="/cards" method="GET">
             <input type="text" name="search" placeholder="Search by name..." value="<%= searchQuery || '' %>">
-            
             <label for="sortField">Sort by:</label>
             <select name="sortField" id="sortField">
                 <option value="name" <% if(sortField === 'name') { %>selected<% } %>>Name</option>
@@ -38,13 +34,11 @@
                 <option value="defence_points" <% if(sortField === 'defence_points') { %>selected<% } %>>Defence Points</option>
                 <option value="is_synchro" <% if(sortField === 'is_synchro') { %>selected<% } %>>Synchro</option>
             </select>
-        
             <label for="sortOrder">Order:</label>
             <select name="sortOrder" id="sortOrder">
                 <option value="asc" <% if(sortOrder === 'asc') { %>selected<% } %>>Ascending</option>
                 <option value="desc" <% if(sortOrder === 'desc') { %>selected<% } %>>Descending</option>
             </select>
-        
             <button type="submit">Update</button>
         </form>
     </header>
