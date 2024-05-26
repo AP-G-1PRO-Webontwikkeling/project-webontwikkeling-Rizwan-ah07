@@ -11,7 +11,15 @@ export function secureMiddleware(req: Request, res: Response, next: NextFunction
 
 export function checkLogin(req: Request, res: Response, next: NextFunction) {
     if (req.session.user) {
-      return res.redirect("/");
+        return res.redirect("/");
     }
     next();
-  }
+}
+
+export function ensureAdmin(req: Request, res: Response, next: NextFunction) {
+    if (req.session.user && req.session.user.role === "ADMIN") {
+        next();
+    } else {
+        res.status(403).send("Access denied. Admins only.");
+    }
+}

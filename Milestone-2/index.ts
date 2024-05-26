@@ -3,8 +3,22 @@ import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
 import { Card, Character } from '../Milestone-1/interfaces';
-import { connect, getAllCards, getAllCharacters, findCardById, findCharacterById, login, register, updateCardById, CharacterCollection, CardCollection } from "./database"; // Make sure to import CharacterCollection and CardCollection
+import {
+    connect,
+    getAllCards,
+    getAllCharacters,
+    findCardById,
+    findCharacterById,
+    login,
+    register,
+    updateCardById,
+    CharacterCollection,
+    CardCollection
+} from "./database";
+import { secureMiddleware, checkLogin, ensureAdmin } from "./middleware/secureMiddleware";
 import { ObjectId } from "mongodb";
+import { loginRouter } from "./routers/loginRouter"
+import { registerRouter } from "./routers/registerRouter";
 
 dotenv.config();
 const app: Express = express();
@@ -28,11 +42,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.get("/", (req: Request, res: Response) => {
+app.use(loginRouter());
+app.use(registerRouter());
+
+app.get("/", secureMiddleware, (req: Request, res: Response) => {
     res.render("index", { title: "Home", message: "Welcome to the Card and Character Viewer!" });
 });
 
-app.get("/cards", async (req: Request, res: Response) => {
+app.get("/cards", secureMiddleware, async (req: Request, res: Response) => {
     try {
         const searchQuery = (req.query.search as string) || '';
         const sortField = (req.query.sortField as string) || 'name';
@@ -56,7 +73,7 @@ app.get("/cards", async (req: Request, res: Response) => {
     }
 });
 
-app.get("/cards/:id", async (req: Request, res: Response) => {
+app.get("/cards/:id", secureMiddleware, async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         console.error("Invalid card ID format:", id);
@@ -70,7 +87,7 @@ app.get("/cards/:id", async (req: Request, res: Response) => {
     res.render("cardDetail", { card });
 });
 
-app.get("/cards/:id/edit", async (req: Request, res: Response) => {
+app.get("/cards/:id/edit", secureMiddleware, ensureAdmin, async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         console.error("Invalid card ID format:", id);
@@ -82,14 +99,14 @@ app.get("/cards/:id/edit", async (req: Request, res: Response) => {
     res.render("cardEdit", { card });
 });
 
-app.post("/cards/:id/edit", async (req: Request, res: Response) => {
+app.post("/cards/:id/edit", secureMiddleware, ensureAdmin, async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
         if (isNaN(id)) {
             return res.status(400).send("Invalid ID format");
         }
 
-        const isSynchro = req.body.is_synchro === 'on'; // Handle boolean value
+        const isSynchro = req.body.is_synchro === 'on';
 
         const updateData: Partial<Card> = {
             name: req.body.name,
@@ -97,7 +114,7 @@ app.post("/cards/:id/edit", async (req: Request, res: Response) => {
             attack_points: parseInt(req.body.attack_points),
             defence_points: parseInt(req.body.defence_points),
             type: req.body.type,
-            is_synchro: isSynchro // Set the boolean value
+            is_synchro: isSynchro
         };
 
         const result = await CardCollection.updateOne({ id: id }, { $set: updateData });
@@ -111,7 +128,7 @@ app.post("/cards/:id/edit", async (req: Request, res: Response) => {
     }
 });
 
-app.get("/characters", async (req: Request, res: Response) => {
+app.get("/characters", secureMiddleware, async (req: Request, res: Response) => {
     const searchQuery = (req.query.search as string) || '';
     const sortField = (req.query.sortField as string) || 'name';
     const sortOrder = (req.query.sortOrder as string) || 'asc';
@@ -132,7 +149,7 @@ app.get("/characters", async (req: Request, res: Response) => {
     res.render("characters", { characters: sortedCharacters, searchQuery, sortField, sortOrder });
 });
 
-app.get("/characters/:id", async (req: Request, res: Response) => {
+app.get("/characters/:id", secureMiddleware, async (req: Request, res: Response) => {
     const id = req.params.id;
     let character;
     let relatedCards = [];
